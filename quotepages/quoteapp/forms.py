@@ -1,5 +1,5 @@
 from django.db.models import ForeignKey, CASCADE
-from django.forms import ModelForm, CharField, TextInput, DateField
+from django.forms import ModelForm, CharField, TextInput, DateField, ModelChoiceField, Select, ChoiceField
 from .models import Tag, Quote, Author
 
 
@@ -24,7 +24,7 @@ class AuthorForm(ModelForm):
 
 class QuoteForm(ModelForm):
     quote = CharField(min_length=5, max_length=1000, required=True, widget=TextInput())
-    author = ForeignKey(Author, on_delete=CASCADE, null=False, unique=False)
+    author = Author.objects.values()[0]
 
     class Meta:
         model = Quote

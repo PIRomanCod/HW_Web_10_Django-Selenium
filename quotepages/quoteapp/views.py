@@ -58,17 +58,11 @@ def quote(request):
         form = QuoteForm(request.POST)
         if form.is_valid():
             new_note = form.save()
-            choice_author = Author.objects.filter(fullname=request.POST.get('author'))
-            for author in choice_author.iterator():
-                new_note.author.add(author)
-
             choice_tags = Tag.objects.filter(name__in=request.POST.getlist('tags'))
             for tag in choice_tags.iterator():
                 new_note.tags.add(tag)
-
             return redirect(to='quoteapp:main')
         else:
-            print(form.errors)
             return render(request, 'quoteapp/quote.html', {"tags": tags, "authors": authors, 'form': QuoteForm()})
 
     return render(request, 'quoteapp/quote.html', context={"tags": tags, "authors": authors, 'form': QuoteForm()})
