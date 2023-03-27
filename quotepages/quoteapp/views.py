@@ -58,9 +58,7 @@ def quote(request):
         form = QuoteForm(request.POST)
         if form.is_valid():
             new_note = form.save()
-            # choice_author = Author.objects.filter(fullname=request.POST.get('author')) #fullname__in=
             choice_author = Author.objects.filter(fullname=request.POST.get('author'))
-            # author = author.pk
             for author in choice_author.iterator():
                 new_note.author.add(author)
 
@@ -111,16 +109,6 @@ def edit_quote(request, quote_id):
     else:
         form = QuoteForm(instance=quote)
     return render(request, 'quoteapp/edit_quote.html', {'form': form})
-
-#
-# def autofill(request):
-#     # login()
-#     tags_seed("quotes.json")
-#     authors_seed("authors.json")
-#     quotes_seed("quotes.json")
-#     # return redirect(to='quoteapp:main')
-#
-
 
 
 

@@ -29,11 +29,7 @@ class Author(models.Model):
 
 class Quote(models.Model):
     quote = models.CharField(max_length=1000, null=False, unique=True)
-    # author = models.CharField(Author, max_length=50, default=0)
-
     author = models.ForeignKey(Author, on_delete=models.CASCADE, null=False, unique=False)
-    # tags = ArrayField(models.CharField(Tag, max_length=25, default=""), default="")
-    # author = models.ManyToManyField(Author)
     tags = models.ManyToManyField(Tag)
     user = models.ForeignKey(User, on_delete=models.CASCADE, default=1)
 
