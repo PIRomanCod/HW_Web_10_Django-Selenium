@@ -1,7 +1,7 @@
 {% extends "quoteapp/base.html" %}
 {% block content %}
 
-<h1>Quotes storage</h1>
+<h1 class="row header-box" >Quotes storage</h1>
 <!--Поведінка навігації для аутентифікованого та випадкового користувача-->
 <div class="container">
     <header class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3 mb-4 border-bottom">
@@ -55,7 +55,7 @@
         <select name="tag" id="tag">
             <option value="">All</option>
             {% for tag in tags %}
-                <option value="{{ tag.name }}" {% if tag.name == tag %}selected{% endif %}>{{ tag.name }}</option>
+                <option value="{{ tag.name }}" {% if tag.name == tag %} selected {% endif %}>{{ tag.name }}</option>
             {% endfor %}
         </select>
         <input type="submit" value="Filter">
@@ -63,22 +63,25 @@
 
 <!--Блок виведення циклу з цитатами, кожна окремою карткою-->
 <ul>
-    {% for quote in quotes %}
+    {% for quote in page_obj %}
     <li>
-       <div class="col-md-12 mb-12">
+       <div class="col-md-12 mb-4">
             <div class="card">
                 <div class="card-body">
                 <a href="{% url 'quoteapp:detail' quote.id %}"> {% load extract_tags %}
                 </a>
-                <h4 class="card-subtitle ">Quote text: </h4>
-                <h5 class="card-subtitle mb-2 text-muted">{{ quote.quote}}</h5>
-                <h4 class="card-subtitle">Tags: </h4>
-                {% for tag in quote.tags|tag %}
-                <h5 class="btn btn-outline-secondary"><a href="tag/{{tag}}"> {{tag}}</a></h5>
-                {% endfor %}
-                <h4 class="card-subtitle">Author: </h4>
-                <h5 class="card-subtitle mb-1 text-muted"><a href="author/{{quote.author}}" class="card-link">
-                    {{quote.author }} </a></h5>
+<!--                <h4 span class="text"><b>Quote text: </b></h4>-->
+                <h5 span class="text">{{ quote.quote}}</h5>
+                    <small class="author">Author: </small>
+                    <a href="author/{{quote.author}}" class="card-link">
+                        {{quote.author }} </a>
+                    <div class="tags">Tags:
+                    {% for tag in quote.tags|tag %}
+                    <a href="tag/{{tag}}" class="btn btn-primary"> {{tag}}</a>
+
+                    {% endfor %}
+
+                </div>
                 {% if user.is_authenticated %}
                 <a href="{% url 'quoteapp:edit_quote' quote.id %}" class="card-link">
                     <button type="button" class="btn btn-warning">Edit</button>
@@ -95,15 +98,16 @@
     {% endfor %}
 </ul>
 
+
 <!--Блок навігації по пагінації-->
    <div class="pagination">
        <span class="step-links">
-       {% if quotes.has_previous %}
+       {% if page_obj.has_previous %}
         <a href="?page=1">First</a>
         <a href="?page={{ quotes.previous_page_number }}">Previous</a>
     {% endif %}
 
-    {% for num in quotes.paginator.page_range %}
+    {% for num in page_obj.paginator.page_range %}
         {% if quotes.number == num %}
             <strong>{{ num }}</strong>
         {% else %}
@@ -111,7 +115,7 @@
         {% endif %}
     {% endfor %}
 
-    {% if quotes.has_next %}
+    {% if page_obj.has_next %}
         <a href="?page={{ quotes.next_page_number }}">Next</a>
         <a href="?page={{ quotes.paginator.num_pages }}">Last</a>
             </span>

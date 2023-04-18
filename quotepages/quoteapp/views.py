@@ -1,5 +1,4 @@
 from django.contrib.auth.decorators import login_required
-from django.db.models import Count
 from django.shortcuts import render, redirect, get_object_or_404
 from django.core.paginator import Paginator
 
@@ -13,14 +12,10 @@ def main(request):
         quotes = Quote.objects.filter(tags__name__icontains=tag)
     else:
         quotes = Quote.objects.all()
-    # object_list = Quote.objects.all()
-    page = request.GET.get('page')
     paginator = Paginator(quotes, 10)  # пагинация по 10 объектов на странице
-    quotes = paginator.get_page(page)
-    page_number = request.GET.get('page')
-    page_obj = paginator.get_page(page_number)
+    page_obj = paginator.get_page(request.GET.get('page'))
     tags = Tag.objects.all()
-    return render(request, 'quoteapp/index.html', {'page_obj': page_obj, 'page': page, "quotes": quotes, 'tag': tag, 'tags': tags})
+    return render(request, 'quoteapp/index.html', {'page_obj': page_obj, 'tags': tags})
 
 
 @login_required

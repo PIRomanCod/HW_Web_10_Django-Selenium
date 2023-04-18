@@ -21,7 +21,11 @@ Fulfilled conditions from the task:
 - Instead of manually filling the database in the folder "SELENIUM" there is an auto-completion script using selenium from already existing json files from the previous homework
 
 # Problems:
-- Page styles are really bad
-- pagination with filter by tag work incorrect from second page
+- Page styles are awful
+
+# Start:
+- python manage.py runserver - start app
+- python manage.py makemigrations  - create migration
+- python manage.py migrate - applying migration
 
  

@@ -3,21 +3,22 @@
 {% load extract_tags %}
 
 <h1>Quote related with tag: {{tag_id}}</h1>
-<div class="row">
+<div class="row ">
     {% for quote in quotes %}
-   <div class="col-md-12 mb-12">
-            <div class="card">
-                <div class="card-body">
+    </div>
+    <div class="col-md-12 mb-4">
+        <div class="card col-md-12 mb-4">
+            <div class="card-body">
                 <p class="card-text"><b>Text:</b> {{quote.quote}}</p>
                 <p class="card-text"><b>Author:</b> {{ quote.author }} </p>
 
                 {% for tag in quote.tags|tag %}
-                <h6 class="btn btn-outline-secondary">{{tag}}</h6>
+                <h6 class="btn btn-primary">{{tag}}</h6>
 
                 {% endfor %}
-                    </div>
-                {% endfor %}
-    </div>
+            </div>
+            {% endfor %}
         </div>
     </div>
-        {% endblock %}
+
+{% endblock %}
